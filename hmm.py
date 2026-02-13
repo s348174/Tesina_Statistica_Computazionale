@@ -194,6 +194,20 @@ hmm_error = np.mean(np.abs(
 print("Baseline MAE:", baseline_error) # MAE of naive random walk predictor
 print("HMM regime MAE:", hmm_error) # MAE of HMM regime-based predictor (predict next point is mean of current regime)
 
+def mean_state_duration(states):
+    durations = []
+    current = states[0]
+    length = 1
+    for s in states[1:]:
+        if s == current:
+            length += 1
+        else:
+            durations.append(length)
+            current = s
+            length = 1
+    durations.append(length)
+    return np.mean(durations)
+
 print("Mean regime duration (test):",
       mean_state_duration(test_states))
 
